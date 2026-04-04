@@ -5,7 +5,11 @@ from dialer import call_parent
 def run():
     df = pd.read_csv("schedule.csv")
 
-    today = date.today().isoformat()  # e.g. 2026-03-21
+    # Strip whitespace from all column names and string values
+    df.columns = df.columns.str.strip()
+    df = df.apply(lambda col: col.str.strip() if col.dtype == "object" else col)
+
+    today = date.today().isoformat()  # e.g. 2026-04-04
     due = df[df["call_date"].astype(str) == today]
 
     print(f"Found {len(due)} rows for {today}")
