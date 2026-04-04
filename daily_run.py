@@ -6,9 +6,11 @@ def run():
     df = pd.read_csv("schedule.csv")
 
     today = date.today().isoformat()  # e.g. 2026-03-21
-    due_rows = df[df["call_date"].astype(str) == today]
+    due = df[df["call_date"].astype(str) == today]
 
-    for _, row in due_rows.iterrows():
+    print(f"Found {len(due)} rows for {today}")
+
+    for _, row in due.iterrows():
         row_dict = row.to_dict()
         print(f"Calling {row_dict.get('parent_phone')} for {row_dict.get('patient_name')}")
         call_parent(row_dict)
